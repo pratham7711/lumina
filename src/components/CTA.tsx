@@ -31,6 +31,23 @@ export default function CTA() {
 
   return (
     <section ref={sectionRef} className="section-padding" style={{ position: 'relative' }}>
+      <style>{`
+        .cta-form {
+          display: flex;
+          gap: 12px;
+          max-width: 460px;
+          margin: 0 auto 16px;
+        }
+        @media (max-width: 600px) {
+          .cta-form {
+            flex-direction: column;
+            gap: 10px;
+          }
+          .cta-form .btn-glow {
+            width: 100%;
+          }
+        }
+      `}</style>
       {/* Subtle background glow */}
       <div style={{
         position: 'absolute',
@@ -46,7 +63,7 @@ export default function CTA() {
       <div className="container" style={{ position: 'relative' }}>
         <div ref={contentRef} style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto', opacity: 0 }}>
           <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3.2rem)',
+            fontSize: 'clamp(1.75rem, 5vw, 3.2rem)',
             fontWeight: 700,
             lineHeight: 1.15,
             marginBottom: 20,
@@ -55,7 +72,7 @@ export default function CTA() {
             <span className="gradient-text">think faster?</span>
           </h2>
           <p style={{
-            fontSize: '1.1rem',
+            fontSize: 'clamp(1rem, 2.5vw, 1.1rem)',
             color: 'var(--text-secondary)',
             lineHeight: 1.7,
             marginBottom: 36,
@@ -65,12 +82,7 @@ export default function CTA() {
 
           <form
             onSubmit={e => e.preventDefault()}
-            style={{
-              display: 'flex',
-              gap: 12,
-              maxWidth: 460,
-              margin: '0 auto 16px',
-            }}
+            className="cta-form"
           >
             <input
               type="email"
@@ -86,6 +98,7 @@ export default function CTA() {
                 outline: 'none',
                 fontFamily: 'var(--font-body)',
                 transition: 'border-color 0.2s',
+                minWidth: 0,
               }}
               onFocus={e => (e.currentTarget.style.borderColor = 'var(--purple)')}
               onBlur={e => (e.currentTarget.style.borderColor = 'var(--glass-border)')}

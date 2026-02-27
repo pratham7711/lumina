@@ -85,6 +85,25 @@ export default function Pricing() {
 
   return (
     <section id="pricing" ref={sectionRef} className="section-padding">
+      <style>{`
+        .pricing-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+          align-items: start;
+        }
+        @media (max-width: 900px) and (min-width: 601px) {
+          .pricing-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .pricing-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+        }
+      `}</style>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: 56 }}>
           <p className="section-label">Pricing</p>
@@ -141,10 +160,7 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div
-          ref={cardsRef}
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, alignItems: 'start' }}
-        >
+        <div ref={cardsRef} className="pricing-grid">
           {plans.map((plan, i) => (
             <div
               key={i}
@@ -172,6 +188,7 @@ export default function Pricing() {
                     borderRadius: 20,
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   Most Popular

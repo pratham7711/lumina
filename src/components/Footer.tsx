@@ -50,10 +50,54 @@ function SocialIcon({ d }: { d: string }) {
 export default function Footer() {
   return (
     <footer style={{ borderTop: '1px solid var(--glass-border)', padding: '64px 24px 32px' }}>
+      <style>{`
+        .footer-grid {
+          display: grid;
+          grid-template-columns: 1.5fr repeat(4, 1fr);
+          gap: 48px;
+          margin-bottom: 48px;
+        }
+        .footer-links-grid {
+          display: contents;
+        }
+        .footer-bottom {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        @media (max-width: 900px) {
+          .footer-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 32px !important;
+          }
+          .footer-brand {
+            grid-column: 1 / -1;
+          }
+        }
+        @media (max-width: 600px) {
+          .footer-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 24px 16px !important;
+          }
+          .footer-brand {
+            grid-column: 1 / -1;
+          }
+          .footer-bottom {
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+          }
+        }
+        @media (max-width: 400px) {
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr repeat(4, 1fr)', gap: 48, marginBottom: 48 }}>
+        <div className="footer-grid">
           {/* Brand */}
-          <div>
+          <div className="footer-brand">
             <div style={{
               fontFamily: 'var(--font-heading)',
               fontSize: '1.35rem',
@@ -96,12 +140,9 @@ export default function Footer() {
           ))}
         </div>
 
-        <div style={{
+        <div className="footer-bottom" style={{
           borderTop: '1px solid var(--glass-border)',
           paddingTop: 24,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
         }}>
           <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
             © 2026 Lumina AI. All rights reserved.

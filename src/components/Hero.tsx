@@ -35,6 +35,20 @@ export default function Hero() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.innerWidth <= 768
+
+    if (prefersReducedMotion || isMobile) {
+      // Instant reveal on mobile / reduced motion
+      ;[badgeRef, headlineRef, subtextRef, ctaRef, mockupRef, scrollRef].forEach(r => {
+        if (r.current) r.current.style.opacity = '1'
+      })
+      headlineRef.current?.querySelectorAll('.hero-word').forEach(el => {
+        (el as HTMLElement).style.opacity = '1'
+      })
+      return
+    }
+
     const tl = gsap.timeline({ delay: 0.3 })
 
     tl.fromTo(badgeRef.current,
@@ -119,18 +133,50 @@ export default function Hero() {
           padding-top: 100px;
           padding-bottom: 60px;
         }
+        .hero-cta-row {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+        .hero-scroll-indicator {
+          display: flex;
+        }
         @media (max-width: 900px) {
           .hero-grid {
             grid-template-columns: 1fr !important;
             gap: 48px !important;
+            padding-top: 100px !important;
+            padding-bottom: 48px !important;
           }
           .mockup-float {
             animation: none !important;
-            transform: perspective(900px) rotateY(-5deg) rotateX(3deg) !important;
+            transform: none !important;
           }
           .hero-mockup-outer {
             max-width: 480px;
             margin: 0 auto;
+          }
+        }
+        @media (max-width: 600px) {
+          .hero-grid {
+            gap: 36px !important;
+          }
+          .hero-cta-row {
+            flex-direction: column;
+            gap: 10px;
+          }
+          .hero-cta-row .btn-glow,
+          .hero-cta-row .btn-ghost {
+            width: 100%;
+            justify-content: center;
+          }
+          .hero-scroll-indicator {
+            display: none;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .mockup-float {
+            animation: none !important;
           }
         }
       `}</style>
@@ -156,7 +202,7 @@ export default function Hero() {
           animation: 'gridDrift 8s linear infinite',
         }} />
 
-        {/* Floating particles */}
+        {/* Floating particles — hidden on mobile for perf */}
         {PARTICLES.map(p => (
           <div key={p.id} style={{
             position: 'absolute',
@@ -192,7 +238,7 @@ export default function Hero() {
           {/* Headline */}
           <div ref={headlineRef}>
             <h1 style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4.2rem)',
+              fontSize: 'clamp(2.2rem, 6vw, 4.2rem)',
               fontWeight: 800,
               lineHeight: 1.08,
               marginBottom: 24,
@@ -221,15 +267,15 @@ export default function Hero() {
 
           {/* Subheadline */}
           <p ref={subtextRef} style={{
-            fontSize: '1.1rem', color: 'var(--text-secondary)',
+            fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', color: 'var(--text-secondary)',
             lineHeight: 1.65, maxWidth: 460, marginBottom: 36, opacity: 0,
           }}>
-            The all-in-one platform that supercharges your team's productivity.<br />
+            The all-in-one platform that supercharges your team's productivity.{' '}
             Automate workflows, ship faster, and grow without limits.
           </p>
 
           {/* CTAs */}
-          <div ref={ctaRef} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', opacity: 0 }}>
+          <div ref={ctaRef} className="hero-cta-row" style={{ opacity: 0 }}>
             <button
               className="btn-glow"
               style={{ background: 'linear-gradient(135deg, #7C3AED, #3B82F6)' }}
@@ -280,7 +326,7 @@ export default function Hero() {
             pointerEvents: 'none',
           }} />
 
-          {/* GSAP fade-in wrapper (opacity only — no transform) */}
+          {/* GSAP fade-in wrapper */}
           <div ref={mockupRef} style={{ width: '100%', opacity: 0, position: 'relative', zIndex: 1 }}>
 
             {/* CSS float + tilt wrapper */}
@@ -422,10 +468,10 @@ export default function Hero() {
       </div>
 
       {/* ── Scroll indicator ── */}
-      <div ref={scrollRef} style={{
+      <div ref={scrollRef} className="hero-scroll-indicator" style={{
         position: 'absolute', bottom: 32, left: '50%',
         transform: 'translateX(-50%)',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+        flexDirection: 'column', alignItems: 'center', gap: 8,
         opacity: 0,
       }}>
         <span style={{

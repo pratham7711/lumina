@@ -72,6 +72,29 @@ export default function Features() {
       className="section-padding"
       style={{ position: 'relative' }}
     >
+      <style>{`
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+        @media (max-width: 1024px) and (min-width: 601px) {
+          .features-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .features-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+        }
+        @media (hover: none) {
+          .feature-card:hover {
+            transform: none !important;
+          }
+        }
+      `}</style>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <p className="section-label">Features</p>
@@ -83,14 +106,7 @@ export default function Features() {
           </p>
         </div>
 
-        <div
-          ref={cardsRef}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 24,
-          }}
-        >
+        <div ref={cardsRef} className="features-grid">
           {features.map((f, i) => (
             <div
               key={i}

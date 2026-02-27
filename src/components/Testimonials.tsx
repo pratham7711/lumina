@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -32,6 +32,7 @@ const testimonials = [
 export default function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
     if (!cardsRef.current) return
@@ -59,8 +60,60 @@ export default function Testimonials() {
     }
   }, [])
 
+  const prev = () => setActiveIndex(i => (i - 1 + testimonials.length) % testimonials.length)
+  const next = () => setActiveIndex(i => (i + 1) % testimonials.length)
+
   return (
     <section id="about" ref={sectionRef} className="section-padding">
+      <style>{`
+        .testimonials-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+        .testimonials-carousel {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .testimonials-grid {
+            display: none !important;
+          }
+          .testimonials-carousel {
+            display: block;
+          }
+        }
+        .carousel-btn {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          border: 1px solid var(--glass-border);
+          background: var(--glass-bg);
+          color: var(--text-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+          flex-shrink: 0;
+        }
+        .carousel-btn:hover {
+          border-color: var(--purple);
+          background: rgba(124, 58, 237, 0.1);
+        }
+        .carousel-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--glass-border);
+          transition: all 0.2s;
+          cursor: pointer;
+        }
+        .carousel-dot.active {
+          background: var(--purple-light);
+          width: 20px;
+          border-radius: 3px;
+        }
+      `}</style>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: 56 }}>
           <p className="section-label">Testimonials</p>
@@ -69,10 +122,8 @@ export default function Testimonials() {
           </h2>
         </div>
 
-        <div
-          ref={cardsRef}
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}
-        >
+        {/* Desktop: 3-col grid */}
+        <div ref={cardsRef} className="testimonials-grid">
           {testimonials.map((t, i) => (
             <div
               key={i}
@@ -89,20 +140,12 @@ export default function Testimonials() {
                 "{t.quote}"
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '50%',
-                    background: t.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 700,
-                    fontSize: '0.8rem',
-                    color: 'white',
-                  }}
-                >
+                <div style={{
+                  width: 40, height: 40, borderRadius: '50%',
+                  background: t.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontWeight: 700, fontSize: '0.8rem', color: 'white',
+                }}>
                   {t.initials}
                 </div>
                 <div>
@@ -114,6 +157,61 @@ export default function Testimonials() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Mobile: carousel */}
+        <div className="testimonials-carousel">
+          <div className="glass-card" style={{ padding: '28px 24px', marginBottom: 24 }}>
+            <p style={{
+              fontSize: '1rem',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.7,
+              marginBottom: 24,
+              fontStyle: 'italic',
+            }}>
+              "{testimonials[activeIndex].quote}"
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: '50%',
+                background: testimonials[activeIndex].color,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 700, fontSize: '0.8rem', color: 'white',
+                flexShrink: 0,
+              }}>
+                {testimonials[activeIndex].initials}
+              </div>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{testimonials[activeIndex].name}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  {testimonials[activeIndex].role} at {testimonials[activeIndex].company}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Controls */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+            <button className="carousel-btn" onClick={prev} aria-label="Previous">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              {testimonials.map((_, i) => (
+                <div
+                  key={i}
+                  className={`carousel-dot${i === activeIndex ? ' active' : ''}`}
+                  onClick={() => setActiveIndex(i)}
+                />
+              ))}
+            </div>
+            <button className="carousel-btn" onClick={next} aria-label="Next">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </section>

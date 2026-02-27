@@ -98,7 +98,7 @@ function FakeDashboard() {
 function FloatingBadge({ text, color, style }: { text: string; color: string; style: React.CSSProperties }) {
   return (
     <div
-      className="glass-card"
+      className="glass-card floating-badge"
       style={{
         position: 'absolute',
         padding: '8px 16px',
@@ -153,6 +153,36 @@ export default function Showcase() {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-8px); }
         }
+        .floating-badge {
+          z-index: 2;
+        }
+        .showcase-wrapper {
+          position: relative;
+          max-width: 900px;
+          margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+          .floating-badge {
+            display: none !important;
+          }
+          .showcase-wrapper {
+            max-width: 100% !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .showcase-dashboard {
+            grid-template-columns: 1fr !important;
+            height: auto !important;
+          }
+          .showcase-sidebar {
+            display: none !important;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .floating-badge {
+            animation: none !important;
+          }
+        }
       `}</style>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: 56 }}>
@@ -162,7 +192,7 @@ export default function Showcase() {
           </h2>
         </div>
 
-        <div ref={dashRef} style={{ position: 'relative', maxWidth: 900, margin: '0 auto', opacity: 0 }}>
+        <div ref={dashRef} className="showcase-wrapper" style={{ opacity: 0 }}>
           <FakeDashboard />
 
           <FloatingBadge
