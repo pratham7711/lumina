@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+# 🌟 Lumina
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Immersive SaaS landing page — animated 3D visuals and scroll-driven storytelling to showcase your product.**
 
-Currently, two official plugins are available:
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-6366f1?style=for-the-badge&logo=vercel)](https://lumina-beta-one.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🌌 **Interactive 3D hero** — Three.js scene rendered via React Three Fiber with real-time camera interaction and post-processing
+- 📜 **Scroll-driven animations** — GSAP ScrollTrigger pins sections and animates elements as the user scrolls through the page
+- ✨ **Framer Motion transitions** — smooth page-level and component-level animations with spring physics
+- 🎨 **Polished design sections** — Hero, Features, Showcase, Pricing, and Footer — all production-ready
+- 📸 **Screenshot gallery** — visual proof-of-concept sections with real product shots
+- 📱 **Fully responsive** — layout adapts gracefully from mobile to widescreen
+- 🚀 **Vite + TypeScript** — lightning-fast dev experience with full type safety
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🖼️ Screenshots
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Hero | Features | Pricing |
+|---|---|---|
+| ![Hero](lumina-hero.png) | ![Features](lumina-features.png) | ![Pricing](lumina-pricing.png) |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tech Stack
+
+![React](https://img.shields.io/badge/React%2019-61DAFB?style=flat-square&logo=react&logoColor=000)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=fff)
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=three.js)
+![React Three Fiber](https://img.shields.io/badge/React%20Three%20Fiber-000000?style=flat-square)
+![GSAP](https://img.shields.io/badge/GSAP%203-88CE02?style=flat-square)
+![Framer Motion](https://img.shields.io/badge/Framer%20Motion-0055FF?style=flat-square&logo=framer&logoColor=fff)
+![Vite](https://img.shields.io/badge/Vite%207-646CFF?style=flat-square&logo=vite&logoColor=fff)
+
+---
+
+## 🚀 Local Setup
+
+### Prerequisites
+
+- Node.js 18+
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/pratham7711/lumina.git
+cd lumina
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+> **Note:** This project references a local `@pratham/ui` package at `../pratham-ui`. If you don't have that sibling directory, remove or stub out the import — the rest of the page will work independently.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 2. Run the dev server
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Open [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🏗️ Build for Production
+
+```bash
+npm run build     # TypeScript compile + Vite bundle → dist/
+npm run preview   # Preview the production build locally
+```
+
+Deploy the `dist/` folder to Vercel, Netlify, or any static host.
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   ├── Hero/          # Three.js 3D scene + hero copy
+│   ├── Features/      # Animated feature cards
+│   ├── Showcase/      # Screenshot / product visual section
+│   ├── Pricing/       # Pricing table
+│   └── Footer/        # Links, socials
+├── hooks/             # useScrollAnimation, useThreeScene
+├── utils/             # GSAP helpers, Three.js setup
+└── App.tsx
+```
+
+---
+
+## 📄 License
+
+MIT — free to use, modify, and distribute.
+
+---
+
+<p align="center">Built by <a href="https://github.com/pratham7711">Pratham</a> · Powered by Three.js + GSAP + Framer Motion</p>
